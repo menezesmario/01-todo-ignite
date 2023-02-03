@@ -1,3 +1,9 @@
+interface Task {
+  id: number;
+  title: string;
+  isComplete: boolean;
+}
+
 export function TaskCard() {
   return (
     <div className="bg-slate-500 rounded flex justify-between">
