@@ -32,6 +32,7 @@ export function TaskList() {
       setTasks([...tasks, newTask]);
 
       console.log(newTask);
+      console.log(tasks);
 
       setNewTaskTitle("");
     } else {
@@ -60,7 +61,17 @@ export function TaskList() {
           </div>
         </div>
         <div>
-          <TaskCard></TaskCard>
+          <ul>
+            {tasks.map((task) => (
+              <li key={task.id}>
+                <TaskCard
+                  id={task.id}
+                  title={task.title}
+                  isComplete={false}
+                ></TaskCard>
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
     </div>
