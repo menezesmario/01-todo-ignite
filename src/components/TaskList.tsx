@@ -31,6 +31,8 @@ export function TaskList() {
 
       setTasks([...tasks, newTask]);
 
+      console.log(newTask);
+
       setNewTaskTitle("");
     } else {
       setTypedTitle(false);
@@ -45,7 +47,9 @@ export function TaskList() {
           placeholder="Adicione nova tarefa"
           onChange={(e) => setNewTaskTitle(e.target.value)}
         />
-        <button>Criar</button>
+        <button type="submit" onClick={handleCreateNewTask}>
+          Criar
+        </button>
       </header>
       <main>
         <div className="done flex gap-2">
