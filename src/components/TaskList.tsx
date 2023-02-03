@@ -1,10 +1,50 @@
+import { Asterisk } from "phosphor-react";
+import { useState } from "react";
 import { TaskCard } from "./TaskCard";
 
+interface Task {
+  id: number;
+  title: string;
+  isComplete: boolean;
+}
+
 export function TaskList() {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [typedTitle, setTypedTitle] = useState(false);
+
+  console.log(newTaskTitle);
+
+  function handleCreateNewTask() {
+    const date = new Date();
+    const newId = `${
+      date.getMonth() + 1
+    }${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}${date.getMilliseconds()}`;
+
+    if (newTaskTitle) {
+      setTypedTitle(true);
+      const newTask = {
+        id: parseInt(newId),
+        title: newTaskTitle,
+        isComplete: false,
+      };
+
+      setTasks([...tasks, newTask]);
+
+      setNewTaskTitle("");
+    } else {
+      setTypedTitle(false);
+    }
+  }
+
   return (
     <div>
       <header>
-        <input type="text" />
+        <input
+          type="text"
+          placeholder="Adicione nova tarefa"
+          onChange={(e) => setNewTaskTitle(e.target.value)}
+        />
         <button>Criar</button>
       </header>
       <main>
