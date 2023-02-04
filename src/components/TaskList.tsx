@@ -1,6 +1,7 @@
 import { Asterisk } from "phosphor-react";
 import { useState } from "react";
 import { TaskCard } from "./TaskCard";
+import { Button } from "./Button";
 
 interface Task {
   id: number;
@@ -33,24 +34,37 @@ export function TaskList() {
 
       console.log(newTask);
       console.log(tasks);
-
-      setNewTaskTitle("");
     } else {
       setTypedTitle(false);
     }
+
+    setNewTaskTitle("");
+  }
+
+  function handleToggleTaskCompleted(id: number) {
+    const mappingTasksComplete = tasks.map((task) => {
+      return task.id === id
+        ? { ...task, isComplete: !task.isComplete }
+        : { ...task };
+    });
+  }
+
+  function handleDeleteTask(id: number) {
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   return (
     <div>
-      <header>
+      <header className="flex">
         <input
           type="text"
           placeholder="Adicione nova tarefa"
           onChange={(e) => setNewTaskTitle(e.target.value)}
+          value={newTaskTitle}
         />
-        <button type="submit" onClick={handleCreateNewTask}>
+        <Button type="submit" onClick={handleCreateNewTask}>
           Criar
-        </button>
+        </Button>
       </header>
       <main>
         <div className="done flex gap-2">
@@ -67,7 +81,7 @@ export function TaskList() {
                 <TaskCard
                   id={task.id}
                   title={task.title}
-                  isComplete={false}
+                  isComplete={task.isComplete}
                 ></TaskCard>
               </li>
             ))}
