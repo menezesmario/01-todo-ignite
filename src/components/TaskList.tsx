@@ -1,22 +1,24 @@
 import { Asterisk } from "phosphor-react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { TaskCard } from "./TaskCard";
 import { Button } from "./Button";
 
-interface Task {
+interface TaskProps {
   id: number;
   title: string;
   isComplete: boolean;
 }
 
 export function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [typedTitle, setTypedTitle] = useState(false);
 
   console.log(newTaskTitle);
 
-  function handleCreateNewTask() {
+  function handleCreateNewTask(event: FormEvent) {
+    event.preventDefault();
+
     const date = new Date();
     const newId = `${
       date.getMonth() + 1
@@ -37,8 +39,13 @@ export function TaskList() {
     } else {
       setTypedTitle(false);
     }
-
+    handleNewTaskInvalid(event);
     setNewTaskTitle("");
+  }
+
+  function handleNewTaskInvalid(event: FormEvent<HTMLTextAreaElement>) {
+    event.preventDefault();
+    if (!newTaskTitle) alert("Please type a new task");
   }
 
   function handleToggleTaskCompleted(id: number) {
@@ -50,7 +57,10 @@ export function TaskList() {
   }
 
   function handleDeleteTask(id: number) {
+    const filterTasksToRemove = tasks.filter((task) => task.id !== id);
     setTasks(tasks.filter((task) => task.id !== id));
+
+    setTasks(filterTasksToRemove);
   }
 
   return (
