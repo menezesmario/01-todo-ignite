@@ -74,9 +74,7 @@ export function TaskList() {
           onChange={(e) => setNewTaskTitle(e.target.value)}
           value={newTaskTitle}
         />
-        <Button type="submit" onClick={handleCreateNewTask}>
-          Criar
-        </Button>
+        <Button onClick={handleCreateNewTask}>Criar</Button>
       </header>
       <main>
         <div className="done flex gap-2">
@@ -110,9 +108,7 @@ export function TaskList() {
             onChange={(e) => setNewTaskTitle(e.target.value)}
             value={newTaskTitle}
           />
-          <Button type="submit" onClick={handleCreateNewTask}>
-            Criar
-          </Button>
+          <Button onClick={handleCreateNewTask}>Criar</Button>
         </div>
       )}
     </div>
