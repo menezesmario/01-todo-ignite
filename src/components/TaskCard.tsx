@@ -1,18 +1,31 @@
-import { Button } from "./Button";
+import { Button } from './Button'
 interface Task {
-  id: number;
-  title: string;
-  isComplete: boolean;
+  id: string
+  title: string
+  isComplete: boolean
 }
 
-export function TaskCard(task: Task) {
+interface TaskCardProps {
+  task: Task
+  handleDeleteTask: (id: string) => void
+  handleCompleteTask: (id: string) => void
+}
+
+export function TaskCard({
+  task,
+  handleDeleteTask,
+  handleCompleteTask,
+}: TaskCardProps) {
   return (
     <div className="bg-slate-500 rounded flex justify-between">
       <div className="flex gap-2">
-        <input type="checkbox" readOnly checked={task.isComplete} />
+        <input title="teste" type="checkbox" checked={task.isComplete} />
         <div>{task.title}</div>
       </div>
-      <Button>Apagar</Button>
+      <Button color="primary" onClick={() => handleCompleteTask(task.id)}>
+        Concluir
+      </Button>
+      <Button onClick={() => handleDeleteTask(task.id)}>Apagar</Button>
     </div>
-  );
+  )
 }

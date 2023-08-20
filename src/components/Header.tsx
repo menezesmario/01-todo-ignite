@@ -6,5 +6,5 @@ export function Header() {
         <div>Logo</div>
       </div>
     </header>
-  );
+  )
 }

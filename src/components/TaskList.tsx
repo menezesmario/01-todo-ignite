@@ -1,56 +1,68 @@
-import { Asterisk } from "phosphor-react";
-import { useState } from "react";
-import { TaskCard } from "./TaskCard";
-import { Button } from "./Button";
-
+import { Asterisk } from 'phosphor-react'
+import { useState } from 'react'
+import { TaskCard } from './TaskCard'
+import { Button } from './Button'
+import './styles.css'
 interface Task {
-  id: number;
-  title: string;
-  isComplete: boolean;
+  id: string
+  title: string
+  isComplete: boolean
 }
 
 export function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTaskTitle, setNewTaskTitle] = useState("");
-  const [typedTitle, setTypedTitle] = useState(false);
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [newTaskTitle, setNewTaskTitle] = useState('')
+  const [typedTitle, setTypedTitle] = useState(false)
+  const [showModalError, setShowModalError] = useState(false)
 
-  console.log(newTaskTitle);
+  console.log(newTaskTitle)
 
   function handleCreateNewTask() {
-    const date = new Date();
+    const date = new Date()
     const newId = `${
       date.getMonth() + 1
-    }${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}${date.getMilliseconds()}`;
+    }${date.getDate()}${date.getHours()}${date.getMinutes()}${date.getSeconds()}${date.getMilliseconds()}`
+
+    console.log(newId)
 
     if (newTaskTitle) {
-      setTypedTitle(true);
+      setTypedTitle(true)
       const newTask = {
-        id: parseInt(newId),
+        id: newId,
         title: newTaskTitle,
         isComplete: false,
-      };
+      }
 
-      setTasks([...tasks, newTask]);
+      setTasks([...tasks, newTask])
+      setShowModalError(false)
 
-      console.log(newTask);
-      console.log(tasks);
+      console.log(newTask)
+      console.log(tasks)
     } else {
-      setTypedTitle(false);
+      setTypedTitle(false)
+      setShowModalError(true)
     }
-
-    setNewTaskTitle("");
+    setNewTaskTitle('')
   }
 
-  function handleToggleTaskCompleted(id: number) {
+  function handleToggleTaskCompleted(id: string) {
     const mappingTasksComplete = tasks.map((task) => {
       return task.id === id
         ? { ...task, isComplete: !task.isComplete }
-        : { ...task };
-    });
+        : { ...task }
+    })
   }
 
-  function handleDeleteTask(id: number) {
-    setTasks(tasks.filter((task) => task.id !== id));
+  function handleDeleteTask(id: string) {
+    setTasks(tasks.filter((task) => task.id !== id))
+  }
+
+  function handleCompleteTask(id: string) {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id ? { ...task, isComplete: true } : task,
+    )
+
+    setTasks(updatedTasks)
   }
 
   return (
@@ -68,9 +80,9 @@ export function TaskList() {
       </header>
       <main>
         <div className="done flex gap-2">
-          Tarefas Concluídas{" "}
+          Tarefas Concluídas{' '}
           <div>
-            {" "}
+            {' '}
             7 de <span>9</span>
           </div>
         </div>
@@ -79,15 +91,30 @@ export function TaskList() {
             {tasks.map((task) => (
               <li key={task.id}>
                 <TaskCard
-                  id={task.id}
-                  title={task.title}
-                  isComplete={task.isComplete}
+                  task={task}
+                  handleDeleteTask={handleDeleteTask}
+                  handleCompleteTask={handleCompleteTask}
                 ></TaskCard>
               </li>
             ))}
           </ul>
         </div>
       </main>
+
+      {showModalError && (
+        <div className="modal-overlay">
+          <div className="errorModal">Digite uma nova task</div>
+          <input
+            type="text"
+            placeholder="Adicione nova tarefa"
+            onChange={(e) => setNewTaskTitle(e.target.value)}
+            value={newTaskTitle}
+          />
+          <Button type="submit" onClick={handleCreateNewTask}>
+            Criar
+          </Button>
+        </div>
+      )}
     </div>
-  );
+  )
 }

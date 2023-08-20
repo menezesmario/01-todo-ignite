@@ -1,35 +1,10 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from 'react'
+import { ButtonContainer, ButtonVariant } from './Button.styles'
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: ReactNode;
-  className?: string;
-  color?: string;
-  colorFont?: string;
-  type?: "button" | "reset" | "submit";
-  title?: string;
-  id?: string;
+interface ButtonProps {
+  variant?: ButtonVariant
 }
 
-export function Button({
-  children,
-  className = "",
-  type = "button",
-  color = "",
-  colorFont = "",
-  title,
-  id,
-  ...rest
-}: Props) {
-  return (
-    <button
-      id={id}
-      title={title}
-      className={`ativa-button ${className}`}
-      type={type}
-      color={color}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
+export function Button({ variant = 'primary' }: ButtonProps) {
+  return <ButtonContainer variant={variant}>Criar</ButtonContainer>
 }
